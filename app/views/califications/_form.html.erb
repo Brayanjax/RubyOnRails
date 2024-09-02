@@ -1,0 +1,27 @@
+<%= form_with(model: calification) do |form| %>
+  <% if calification.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(calification.errors.count, "error") %> prohibited this calification from being saved:</h2>
+
+      <ul>
+        <% calification.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :points, style: "display: block" %>
+    <%= form.text_field :points %>
+  </div>
+
+  <div>
+    <%= form.label :advice, style: "display: block" %>
+    <%= form.text_area :advice %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
