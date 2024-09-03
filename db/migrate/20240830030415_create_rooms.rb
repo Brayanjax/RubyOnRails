@@ -4,9 +4,9 @@ class CreateRooms < ActiveRecord::Migration[7.2]
       t.string :name
       t.float :price
       t.boolean :status
-      t.references :Calification, null: false, foreign_key: true
-      t.references :Kinds, null: false, foreign_key: true
-      t.references :Hotel, null: false, foreign_key: true
+      t.references :califications, null: false, foreign_key: true
+      t.references :kinds, null: false, foreign_key: true
+      t.references :hotels, null: false, foreign_key: true
 
       t.timestamps
     end

@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "califications", force: :cascade do |t|
     t.float "points"
     t.text "advice"
@@ -41,12 +44,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
     t.float "price"
     t.boolean "status"
     t.boolean "calicated"
-    t.integer "User_id", null: false
-    t.integer "Room_id", null: false
+    t.bigint "users_id", null: false
+    t.bigint "room_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Room_id"], name: "index_reservations_on_Room_id"
-    t.index ["User_id"], name: "index_reservations_on_User_id"
+    t.index ["room_id"], name: "index_reservations_on_room_id"
+    t.index ["users_id"], name: "index_reservations_on_users_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -59,30 +62,30 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
     t.string "name"
     t.float "price"
     t.boolean "status"
-    t.integer "Calification_id", null: false
-    t.integer "Kinds_id", null: false
-    t.integer "Hotel_id", null: false
+    t.bigint "califications_id", null: false
+    t.bigint "kinds_id", null: false
+    t.bigint "hotels_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Calification_id"], name: "index_rooms_on_Calification_id"
-    t.index ["Hotel_id"], name: "index_rooms_on_Hotel_id"
-    t.index ["Kinds_id"], name: "index_rooms_on_Kinds_id"
+    t.index ["califications_id"], name: "index_rooms_on_califications_id"
+    t.index ["hotels_id"], name: "index_rooms_on_hotels_id"
+    t.index ["kinds_id"], name: "index_rooms_on_kinds_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password"
-    t.integer "Role_id", null: false
+    t.bigint "roles_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Role_id"], name: "index_users_on_Role_id"
+    t.index ["roles_id"], name: "index_users_on_roles_id"
   end
 
-  add_foreign_key "reservations", "Rooms"
-  add_foreign_key "reservations", "Users"
-  add_foreign_key "rooms", "Califications"
-  add_foreign_key "rooms", "Hotels"
-  add_foreign_key "rooms", "Kinds", column: "Kinds_id"
-  add_foreign_key "users", "Roles"
+  add_foreign_key "reservations", "rooms"
+  add_foreign_key "reservations", "users", column: "users_id"
+  add_foreign_key "rooms", "califications", column: "califications_id"
+  add_foreign_key "rooms", "hotels", column: "hotels_id"
+  add_foreign_key "rooms", "kinds", column: "kinds_id"
+  add_foreign_key "users", "roles", column: "roles_id"
 end
