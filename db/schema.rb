@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_03_070448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,14 +42,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
 
   create_table "reservations", force: :cascade do |t|
     t.float "price"
-    t.boolean "status"
+    t.integer "status"
     t.boolean "calicated"
-    t.bigint "users_id", null: false
-    t.bigint "room_id", null: false
+    t.bigint "rooms_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["room_id"], name: "index_reservations_on_room_id"
-    t.index ["users_id"], name: "index_reservations_on_users_id"
+    t.index ["rooms_id"], name: "index_reservations_on_rooms_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -73,17 +71,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_083806) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.bigint "roles_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["roles_id"], name: "index_users_on_roles_id"
   end
 
-  add_foreign_key "reservations", "rooms"
-  add_foreign_key "reservations", "users", column: "users_id"
+  add_foreign_key "reservations", "rooms", column: "rooms_id"
   add_foreign_key "rooms", "califications", column: "califications_id"
   add_foreign_key "rooms", "hotels", column: "hotels_id"
   add_foreign_key "rooms", "kinds", column: "kinds_id"
