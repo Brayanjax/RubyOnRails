@@ -1,16 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<%= form_with url: hotels_path, method: :get, local: true do %>
+  <div class="form-group">
+    <%= label_tag :query, 'Buscar hoteles' %>
+    <br>
+    <%= text_field_tag :query, params[:query], class: 'form-control mb-3', placeholder: 'Buscar por nombre o ubicación' %>
+    <%= submit_tag 'Buscar', class: 'btn btn-primary' %>
+  </div>
+<% end %>
 
-<% content_for :title, "Hotels" %>
-
-<h1>Hotels</h1>
-
-<div id="hotels">
-  <% @hotels.each do |hotel| %>
-    <%= render hotel %>
-    <p>
-      <%= link_to "Show this hotel", hotel %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New hotel", new_hotel_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Location</th>
+      <th scope="col">Rooms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hotels.each_with_index do |hotel, index| %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= hotel.name %></td>
+        <td><%= hotel.calification %></td>
+        <td><%= link_to 'Watch Rooms', hotel_rooms_path(hotel), class: 'btn btn-secondary' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

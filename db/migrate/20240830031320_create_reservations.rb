@@ -4,7 +4,7 @@ class CreateReservations < ActiveRecord::Migration[7.2]
       t.float :price
       t.integer :status
       t.boolean :calicated
-      # t.references :users, null: false, foreign_key: true
+
       t.references :rooms, null: false, foreign_key: true
 
       t.timestamps

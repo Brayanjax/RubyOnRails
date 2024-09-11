@@ -1,10 +1,23 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: %i[ show edit update destroy ]
 
-  # GET /rooms or /rooms.json
-  def index
-    @rooms = Room.all
+ # GET /rooms or /rooms.json
+ def index
+  if params[:hotels_id]
+    @hotel = Hotel.find(params[:hotels_id])
+    
+    @rooms = Room.where(hotels_id: @hotel.id, status: true)
+  else
+    @rooms = Room.where(status: true)
   end
+
+  if params[:query].present?
+    @rooms = @rooms.where('name LIKE ?', "%#{params[:query]}%")
+  end
+end
+
+
+
 
   # GET /rooms/1 or /rooms/1.json
   def show

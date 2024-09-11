@@ -2,9 +2,16 @@ class HotelsController < ApplicationController
   before_action :set_hotel, only: %i[ show edit update destroy ]
 
   # GET /hotels or /hotels.json
+
   def index
-    @hotels = Hotel.all
+    if params[:query].present?
+      @hotels = Hotel.where('name LIKE ?', "%#{params[:query]}%")
+    else
+      @hotels = Hotel.all
+    end
   end
+
+
 
   # GET /hotels/1 or /hotels/1.json
   def show

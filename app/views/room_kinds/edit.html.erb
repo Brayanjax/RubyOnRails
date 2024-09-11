@@ -1,0 +1,12 @@
+<% content_for :title, "Editing room kind" %>
+
+<h1>Editing room kind</h1>
+
+<%= render "form", room_kind: @room_kind %>
+
+<br>
+
+<div>
+  <%= link_to "Show this room kind", @room_kind %> |
+  <%= link_to "Back to room kinds", room_kinds_path %>
+</div>

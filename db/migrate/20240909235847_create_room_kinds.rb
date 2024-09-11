@@ -1,6 +1,6 @@
-class CreateKinds < ActiveRecord::Migration[7.2]
+class CreateRoomKinds < ActiveRecord::Migration[7.2]
   def change
-    create_table :kinds do |t|
+    create_table :room_kinds do |t|
       t.string :name
       t.integer :bed
 

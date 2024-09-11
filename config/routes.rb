@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
+  resources :room_kinds
   devise_for :users
   resources :users
   resources :landing_pages
   resources :reservations
   resources :rooms
  
-  resources :hotels
+  resources :hotels do
+    resources :rooms, only: [:index] do 
+      resources :reservations, only:[:index]
+    end
+  end
   resources :roles
   resources :califications
   resources :kinds

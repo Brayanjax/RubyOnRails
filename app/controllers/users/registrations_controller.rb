@@ -1,46 +1,29 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_create :set_default_role
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :set_default_role, only: [:create]
 
-  # GET /resource/sign_up
+  def create
+    @user = User.new(user_params)
+    
+    if @user.save
+      redirect_to user_url(@user), notice: "User was successfully created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def set_default_role
+    @user.roles_id = Role.find(1).id  # Cambia 1 por el ID correcto
+  end
+  
+
+ # GET /resource/sign_up
   # def new
   #   super
   # end
-
-  # POST /resource
-  def create
-    
-      @user = User.new(user_params)
-      
-      role = Role.find(1)
-      @user.roles_id= role
-      puts @user
-      respond_to do |format|
-        if @user.save
-          format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-          format.json { render :show, status: :created, location: @user }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
-      end
-     
-  end
-  private
-
-  def assign_default_role
-
-    self.update(role: Role.find_by(name: 'User'))
-  end
-  
-    def set_default_role
-      self.role = "User"
-      Rails.logger.info("User role set to default: user")
-    end
-
 
   # GET /resource/edit
   # def edit

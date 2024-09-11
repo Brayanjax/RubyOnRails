@@ -1,16 +1,34 @@
-<p style="color: green"><%= notice %></p>
+<h1>Habitaciones del Hotel <%= @name %></h1>
 
-<% content_for :title, "Rooms" %>
+<%= form_with url: request.path, method: :get, local: true do %>
+  <div class="form-group">
+    <%= label_tag :query, 'Buscar habitaciones' %>
+    <br>
+    <%= text_field_tag :query, params[:query], class: 'form-control mb-3', placeholder: 'Buscar por nombre' %>
+    <%= submit_tag 'Buscar', class: 'btn btn-primary' %>
+  </div>
+<% end %>
 
-<h1>Rooms</h1>
-
-<div id="rooms">
-  <% @rooms.each do |room| %>
-    <%= render room %>
-    <p>
-      <%= link_to "Show this room", room %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New room", new_room_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Precio</th>
+      <th scope="col">reservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rooms.each_with_index do |room, index| %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= room.name %></td>
+        
+       
+        <td><%= room.price %></td>
+        <td><%= link_to 'Make reservation', reservations_path(room), class: 'btn btn-secondary' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

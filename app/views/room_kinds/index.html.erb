@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Room kinds" %>
+
+<h1>Room kinds</h1>
+
+<div id="room_kinds">
+  <% @room_kinds.each do |room_kind| %>
+    <%= render room_kind %>
+    <p>
+      <%= link_to "Show this room kind", room_kind %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New room kind", new_room_kind_path %>

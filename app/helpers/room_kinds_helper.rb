@@ -1,0 +1,2 @@
+module RoomKindsHelper
+end

@@ -1,5 +1,13 @@
 class Room < ApplicationRecord
-  belongs_to :Calification
-  belongs_to :Kinds
-  belongs_to :Hotel
+  has_many :califications
+  has_one :room_kind
+  belongs_to :hotels
+
+
+ 
+    def callName
+      self.room_kind&.name || "No Room Kind Assigned"
+    end
+    
+  
 end
